@@ -11,3 +11,22 @@ router.get("/", getItems);
 router.post("/", protect, upload.single("pictureLink"), createItem);
 
 export default router;
+
+
+// [Incoming Request with Image]
+//           │
+//           ▼
+// 1. protect (controllers/auth.ts)
+//    └── Verifies the user is logged in (checks JWT token)
+//           │
+//           ▼
+// 2. upload.single("pictureLink") (routes/items.ts + config/cloudinary.ts)
+//    └── Intercepts the image file and sends it directly to Cloudinary
+//    └── Attaches Cloudinary's response URL to `request.file`
+//           │
+//           ▼
+// 3. createItem (controllers/items.ts)
+//    └── Reads the Cloudinary URL from `request.file`
+//    └── Saves the item to MongoDB with that URL!
+
+

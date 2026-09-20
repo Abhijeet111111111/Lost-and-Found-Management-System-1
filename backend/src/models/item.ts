@@ -40,10 +40,15 @@ const itemSchema = new Schema<IItem>({
     type: Date,
     required: [false, "Please provide the date the item was found"],
   },
+
   privateDetails: {
-    type: String,
-    required: [true, "Please provide private verification details"],
+  type: String,
+  // Required ONLY when type is "found", completely optional for "lost" items!
+  required: function (this: IItem) {
+    return this.type === "found";
+    },
   },
+
   pictureLink: {
     type: String,
     required: [true, "Please provide a picture link"],

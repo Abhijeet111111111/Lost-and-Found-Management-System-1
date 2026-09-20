@@ -13,32 +13,34 @@ export default function Report() {
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
+    
+    // 1. Properly set the selected type ("lost" or "found")
     formData.set("type", type);
 
-    if (!formData.has("privateDetails")) {
-      formData.set("privateDetails", "");
-      formData.set("type", "lost");
-    } else {
-      formData.set("type", "found");
+    // 2. Attach the selected image file from state if available
+    if (imageFile) {
+      formData.set("pictureLink", imageFile, imageFile.name);
     }
 
-    const file = formData.get("pictureLink");
-    if (file instanceof File) {
-      formData.set("pictureLink", file, file.name);
-    }
+    // 3. Get the user's login token (e.g. from localStorage or cookies)
+    const token = localStorage.getItem("token"); // or wherever you store your JWT
 
     try {
       const res = await fetch("http://localhost:3000/api/items", {
         method: "POST",
+        headers: {
+          // Send token for the 'protect' middleware
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          // ⚠️ Note: Do NOT add "Content-Type" here! Browser sets it automatically with the file boundary.
+        },
         body: formData,
       });
 
       if (res.ok) {
         navigate("/");
       } else {
-        alert(
-          "Failed to submit report. Ensure your backend is running and connected.",
-        );
+        const errorData = await res.json().catch(() => ({}));
+        alert(errorData.message || "Failed to submit report. Please check your inputs.");
       }
     } catch (err) {
       console.error(err);
