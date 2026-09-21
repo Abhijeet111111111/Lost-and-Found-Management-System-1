@@ -26,7 +26,10 @@ const itemSchema = new Schema({
     },
     privateDetails: {
         type: String,
-        required: [true, "Please provide private verification details"],
+        // Required ONLY when type is "found", completely optional for "lost" items!
+        required: function () {
+            return this.type === "found";
+        },
     },
     pictureLink: {
         type: String,
