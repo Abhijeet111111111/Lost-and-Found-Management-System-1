@@ -31,3 +31,9 @@ export interface Claim {
 
 // DTO for public board - strictly omits privateDetails
 export type PublicItemDTO = Omit<Item, "privateDetails">;
+
+export interface AuthUser {
+  id: string;
+  registrationNo: string;
+  role: 'student' | 'admin';
+}

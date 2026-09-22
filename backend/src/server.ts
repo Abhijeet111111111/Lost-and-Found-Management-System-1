@@ -61,3 +61,4 @@ const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
 
 app.use(errorHandler);
 app.listen(port, () => console.log(`API listening on port ${port}`));
+
