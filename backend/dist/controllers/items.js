@@ -11,7 +11,7 @@ export async function getItems(request, response, next) {
             }
             return response.json(item);
         }
-        const items = await Item.find({}).sort({
+        const items = await Item.find().sort({
             createdAt: -1,
         });
         return response.json(items);
@@ -25,9 +25,8 @@ export async function createItem(request, response, next) {
         const uploadedFile = request.file;
         const pictureLink = uploadedFile?.secure_url ||
             uploadedFile?.path ||
-            (typeof request.body.pictureLink === "string" &&
+            (typeof request.body?.pictureLink === "string" &&
                 request.body.pictureLink);
-        console.log(pictureLink);
         if (!pictureLink) {
             return response.status(400).json({ message: "Please upload an image" });
         }
@@ -40,7 +39,6 @@ export async function createItem(request, response, next) {
             pictureLink,
             user: foundUser._id,
         });
-        console.log(item);
         return response.status(201).json(item.toObject());
     }
     catch (error) {

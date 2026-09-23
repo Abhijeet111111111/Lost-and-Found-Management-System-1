@@ -42,7 +42,7 @@ const itemSchema = new Schema<IItem>({
   },
   privateDetails: {
     type: String,
-    required: [true, "Please provide private verification details"],
+    required: [false, "Please provide private verification details"],
   },
   pictureLink: {
     type: String,

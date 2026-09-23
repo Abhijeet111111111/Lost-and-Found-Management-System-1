@@ -26,7 +26,7 @@ export async function getItems(
       return response.json(item);
     }
 
-    const items = await Item.find({}).sort({
+    const items = await Item.find().sort({
       createdAt: -1,
     });
 
@@ -46,7 +46,8 @@ export async function createItem(
     const pictureLink =
       uploadedFile?.secure_url ||
       uploadedFile?.path ||
-      (typeof request.body?.pictureLink === "string" && request.body.pictureLink);
+      (typeof request.body?.pictureLink === "string" &&
+        request.body.pictureLink);
 
     if (!pictureLink) {
       return response.status(400).json({ message: "Please upload an image" });

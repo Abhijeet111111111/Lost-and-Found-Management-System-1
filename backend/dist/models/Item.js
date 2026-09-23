@@ -26,7 +26,7 @@ const itemSchema = new Schema({
     },
     privateDetails: {
         type: String,
-        required: [true, "Please provide private verification details"],
+        required: [false, "Please provide private verification details"],
     },
     pictureLink: {
         type: String,

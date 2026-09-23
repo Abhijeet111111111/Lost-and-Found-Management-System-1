@@ -1,12 +1,9 @@
 import { Router } from "express";
-import multer from "multer";
-import storage from "../config/cloudinary.js";
 import { getItems, createItem } from "../controllers/items.js";
+import upload from "./../config/cloudinary.js";
+import "dotenv/config";
 const router = Router();
-const upload = multer({ storage });
 router.get("/", getItems);
-router.post("/", () => {
-    console.log("ran");
-}, createItem);
+router.post("/", upload.single("pictureLink"), createItem);
 export default router;
 //# sourceMappingURL=items.js.map

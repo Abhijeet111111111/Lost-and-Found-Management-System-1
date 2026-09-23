@@ -1,4 +1,4 @@
-import { CloudinaryStorage } from "multer-storage-cloudinary";
+import multer from "multer";
 import "dotenv/config";
-declare const storage: CloudinaryStorage;
-export default storage;
+declare const upload: multer.Multer;
+export default upload;

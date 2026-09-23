@@ -1,13 +1,12 @@
 import { Router } from "express";
-import multer from "multer";
-import storage from "../config/cloudinary.js";
 import { protect } from "../controllers/auth.js";
 import { getItems, createItem } from "../controllers/items.js";
+import upload from "./../config/cloudinary.js";
+import "dotenv/config";
 
 const router = Router();
-const upload = multer({ storage });
 
 router.get("/", getItems);
-router.post("/", protect, upload.single("pictureLink"), createItem);
+router.post("/", upload.single("pictureLink"), createItem);
 
 export default router;

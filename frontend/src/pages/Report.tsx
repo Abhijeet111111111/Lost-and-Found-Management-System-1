@@ -13,18 +13,29 @@ export default function Report() {
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-    formData.set("type", type);
+    // formData.set("type", type);
 
-    if (!formData.has("privateDetails")) {
-      formData.set("privateDetails", "");
-      formData.set("type", "lost");
-    } else {
-      formData.set("type", "found");
+    // if (!formData.has("privateDetails")) {
+    //   formData.set("privateDetails", "");
+    //   formData.set("type", "lost");
+    // } else {
+    //   formData.set("type", "found");
+    // }
+
+    // const file = formData.get("pictureLink");
+    // if (file instanceof File) {
+    //   formData.set("pictureLink", file, file.name);
+    // }
+
+    formData.set("type", type);
+    formData.set("privateDetails", formData.get("privateDetails") || "");
+
+    if (imageFile) {
+      formData.set("pictureLink", imageFile);
     }
 
-    const file = formData.get("pictureLink");
-    if (file instanceof File) {
-      formData.set("pictureLink", file, file.name);
+    for (const [key, value] of formData.entries()) {
+      console.log(key, value);
     }
 
     try {
@@ -33,8 +44,10 @@ export default function Report() {
         body: formData,
       });
 
+      const data = await res.json();
+
       if (res.ok) {
-        navigate("/");
+        console.log(data);
       } else {
         alert(
           "Failed to submit report. Ensure your backend is running and connected.",
@@ -45,6 +58,7 @@ export default function Report() {
       alert("An error occurred while communicating with the server.");
     } finally {
       setIsSubmitting(false);
+      navigate("/");
     }
   };
 
