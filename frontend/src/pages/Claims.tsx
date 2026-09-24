@@ -29,17 +29,20 @@ export default function Claim() {
     setSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
+    const token = localStorage.getItem("token");
     const data = {
       itemId: id,
-      claimantName: formData.get("name"),
-      claimantContact: formData.get("contact"),
-      verificationAnswers: formData.get("verification"),
+      studentRegNo: formData.get("contact"),
+      challengeAnswer: formData.get("verification"),
     };
 
     try {
       const res = await fetch("/api/claims", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
         body: JSON.stringify(data),
       });
 

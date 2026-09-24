@@ -1,27 +1,3 @@
-// import { v2 as cloudinary } from "cloudinary";
-// import { CloudinaryStorage } from "multer-storage-cloudinary";
-// import "dotenv/config";
-
-// cloudinary.config({
-//   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-//   api_key: process.env.CLOUDINARY_CLOUD_KEY,
-//   api_secret: process.env.CLOUDINARY_CLOUD_SECRET,
-// });
-
-// const storage = new CloudinaryStorage({
-//   cloudinary,
-//   params: (_req, file) => ({
-//     folder: "lost-and-found",
-//     allowed_formats: ["png", "jpg", "jpeg", "pjpeg"],
-//     resource_type: "image",
-//     public_id: file.originalname.split(".")[0],
-//   }),
-// });
-
-// export default storage;
-
-
-
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 

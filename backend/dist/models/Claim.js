@@ -31,6 +31,11 @@ const claimSchema = new Schema({
         type: Date,
         required: [true, "Please provide when the item was lost"],
     },
+    status: {
+        type: String,
+        enum: ["pending", "approved", "rejected"],
+        default: "pending",
+    },
 });
 claimSchema.index({ user: 1, item: 1 }, { unique: true });
 const Claim = model("Claim", claimSchema);

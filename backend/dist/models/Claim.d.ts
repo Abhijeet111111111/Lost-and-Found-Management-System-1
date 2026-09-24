@@ -7,6 +7,7 @@ export interface IClaim {
     claimPicture?: string;
     lostLocation: string;
     lostTime: Date;
+    status: "pending" | "approved" | "rejected";
 }
 declare const Claim: import("mongoose").Model<IClaim, {}, {}, {}, import("mongoose").Document<unknown, {}, IClaim, {}, import("mongoose").DefaultSchemaOptions> & IClaim & {
     _id: Types.ObjectId;

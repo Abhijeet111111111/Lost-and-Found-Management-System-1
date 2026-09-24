@@ -1,22 +1,21 @@
-export type ItemType = "lost" | "found";
-export type ItemStatus = "open" | "claimed" | "returned" | "disposed";
+export type ItemType = 'lost' | 'found';
+export type ItemStatus = 'open' | 'claimed' | 'returned' | 'disposed';
 
 export interface Item {
-  _id: string;
+  id: string;
   type: ItemType;
-  itemName: string;
-  publicDescription: string;
+  title: string;
+  description: string;
   category: string;
   location: string;
   dateReported?: string;
   createdAt?: string;
   incidentDate: string;
   photoUrl?: string;
-  pictureLink?: string;
+  imageUrl?: string;
   status: ItemStatus;
-
-  // Only for 'found' items - these are the hidden identifying details
-  privateDetails?: string;
+  
+  privateDetails?: string; 
 }
 
 export interface Claim {
@@ -25,15 +24,23 @@ export interface Claim {
   claimantName: string;
   claimantContact: string;
   verificationAnswers: string;
-  status: "pending" | "approved" | "rejected";
+  status: 'pending' | 'approved' | 'rejected';
   dateSubmitted: string;
 }
 
 // DTO for public board - strictly omits privateDetails
-export type PublicItemDTO = Omit<Item, "privateDetails">;
+export type PublicItemDTO = Omit<Item, 'privateDetails'> & {
+  _id: string;
+  itemName: string;
+  publicDescription: string;
+  pictureLink?: string;
+};
 
 export interface AuthUser {
   id: string;
+  _id?: string;
+  name: string;
+  email: string;
   registrationNo: string;
   role: 'student' | 'admin';
 }

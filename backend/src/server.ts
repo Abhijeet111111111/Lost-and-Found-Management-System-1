@@ -49,8 +49,7 @@ app.use(express.json());
 app.get("/api/health", (_request, response) => response.json({ ok: true }));
 app.use("/api/items", itemsRouter);
 app.use("/api/auth", authRoutes);
-app.use("/api/claim", ClaimRoutes);
-// app.use('/api/claims', claimsRouter);
+app.use("/api/claims", ClaimRoutes);
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
   res.json({

@@ -8,6 +8,7 @@ export interface IClaim {
   claimPicture?: string;
   lostLocation: string;
   lostTime: Date;
+  status: "pending" | "approved" | "rejected";
 }
 
 const claimSchema = new Schema<IClaim>({
@@ -41,6 +42,11 @@ const claimSchema = new Schema<IClaim>({
   lostTime: {
     type: Date,
     required: [true, "Please provide when the item was lost"],
+  },
+  status: {
+    type: String,
+    enum: ["pending", "approved", "rejected"],
+    default: "pending",
   },
 });
 
