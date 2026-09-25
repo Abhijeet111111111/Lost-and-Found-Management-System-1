@@ -1,9 +1,15 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShieldCheck, PlusCircle, Search } from "lucide-react";
 import Button from "./Button";
 import bg from "../assets/bg.jpeg";
+import { useAuth } from "../context/authContext";
+
+import handleNavigateAndStore from "./../utils/handleNavigateAndStore";
 
 export default function HeroSection() {
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+
   return (
     <div className="relative bg-slate-900 text-white pt-32 pb-40 sm:pt-40 sm:pb-48 overflow-hidden flex justify-center items-center">
       <img
@@ -33,11 +39,19 @@ export default function HeroSection() {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center gap-4">
-          <Link to="/report">
-            <Button variant="accent" size="lg" className="w-full sm:w-auto">
-              <PlusCircle className="w-5 h-5" /> Report Now
-            </Button>
-          </Link>
+          {/* <Link to="/report"> */}
+          <Button
+            onClick={() =>
+              handleNavigateAndStore(navigate, "/report", "/report", isLoggedIn)
+            }
+            variant="accent"
+            size="lg"
+            className="w-full sm:w-auto"
+          >
+            <PlusCircle className="w-5 h-5" />{" "}
+            {isLoggedIn ? "Report Now" : "Login to report"}
+          </Button>
+          {/* </Link> */}
           <Button
             variant="outline"
             size="lg"

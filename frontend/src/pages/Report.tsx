@@ -13,7 +13,6 @@ export default function Report() {
     setIsSubmitting(true);
 
     const formData = new FormData(e.currentTarget);
-<<<<<<< HEAD
     // formData.set("type", type);
 
     // if (!formData.has("privateDetails")) {
@@ -38,8 +37,7 @@ export default function Report() {
     for (const [key, value] of formData.entries()) {
       console.log(key, value);
     }
-=======
-    
+
     // 1. Properly set the selected type ("lost" or "found")
     formData.set("type", type);
 
@@ -50,7 +48,6 @@ export default function Report() {
 
     // 3. Get the user's login token (e.g. from localStorage or cookies)
     const token = localStorage.getItem("token"); // or wherever you store your JWT
->>>>>>> 04852e9cc913c37d7586a7e9e4acafe643919326
 
     try {
       const res = await fetch("http://localhost:3000/api/items", {
@@ -69,7 +66,10 @@ export default function Report() {
         console.log(data);
       } else {
         const errorData = await res.json().catch(() => ({}));
-        alert(errorData.message || "Failed to submit report. Please check your inputs.");
+        alert(
+          errorData.message ||
+            "Failed to submit report. Please check your inputs.",
+        );
       }
     } catch (err) {
       console.error(err);

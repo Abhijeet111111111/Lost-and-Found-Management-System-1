@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import type { PublicItemDTO } from "../types";
 import { AlertCircle, ShieldCheck } from "lucide-react";
 import Button from "../Components/Button";
+import { useAuth } from "../context/authContext";
+
+const BASE_URL = "http://localhost:3000";
 
 export default function Claim() {
   const { id } = useParams();
@@ -11,8 +14,10 @@ export default function Claim() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
+  const { user } = useAuth();
+
   useEffect(() => {
-    fetch(`http://localhost:3000/api/items?id=${id}`)
+    fetch(`${BASE_URL}/api/items?id=${id}`)
       .then((res) => res.json())
       .then((data) => {
         setItem(data);
@@ -37,7 +42,7 @@ export default function Claim() {
     };
 
     try {
-      const res = await fetch("/api/claims", {
+      const res = await fetch(`${BASE_URL}/api/claims`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -154,6 +159,7 @@ export default function Claim() {
                       name="name"
                       type="text"
                       className="w-full px-3 py-2 text-sm border border-slate-300 rounded focus:ring-2 focus:ring-[#ef7d00] outline-none"
+                      defaultValue={user?.name}
                     />
                   </div>
                   <div>
@@ -165,6 +171,7 @@ export default function Claim() {
                       name="contact"
                       type="text"
                       className="w-full px-3 py-2 text-sm border border-slate-300 rounded focus:ring-2 focus:ring-[#ef7d00] outline-none"
+                      defaultValue={user?.registrationNo}
                     />
                   </div>
                 </div>

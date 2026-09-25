@@ -5,6 +5,9 @@ import Board from "./pages/Board";
 import Report from "./pages/Report";
 import Claim from "./pages/Claims";
 import Admin from "./pages/Admin";
+import Login from "./pages/Login";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import { useAuth } from "./context/authContext";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -16,13 +19,18 @@ function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const { logout } = useAuth();
+  // logout();
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Board />} />
-        <Route path="/report" element={<Report />} />
-        <Route path="/claim/:id" element={<Claim />} />
-        <Route path="/admin" element={<Admin />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/report" element={<Report />} />
+          <Route path="/claim/:id" element={<Claim />} />
+          <Route path="/admin" element={<Admin />} />
+        </Route>
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Layout>
   );
