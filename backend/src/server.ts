@@ -12,12 +12,6 @@ import multre from "multer";
 
 const app = express();
 
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
-});
-
 mongoose
   .connect(
     process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/lpu-lost-found",
@@ -52,6 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/claims", ClaimRoutes);
 
 const errorHandler: ErrorRequestHandler = (err, _req, res, _next) => {
+  console.log(err);
   res.json({
     status: err.status || 404,
     message: err.message || "something went wrong",
