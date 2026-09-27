@@ -1,6 +1,10 @@
 import React from "react";
 import { Upload, CheckCircle } from "lucide-react";
 import Button from "./Button";
+import { useUrlPosition } from "./../hooks/useUrlPosition";
+import { useState, useEffect } from "react";
+
+const BASE_URL = "https://api.bigdatacloud.net/data/reverse-geocode-client";
 
 interface ReportFormProps {
   type: "lost" | "found";
@@ -19,8 +23,48 @@ export default function ReportForm({
   setImageFile,
   handleSubmit,
 }: ReportFormProps) {
+  const [lat, lng] = useUrlPosition();
+  const [isLoadingGeocoding, setIsLoadingGeocoding] = useState(false);
+  const [geoCodingError, setGeoCodingError] = useState("");
+  const [cityName, setCityName] = useState("");
+
+  useEffect(
+    function () {
+      if (!lat && !lng) return;
+
+      async function fetchCityData() {
+        try {
+          setIsLoadingGeocoding(true);
+          setGeoCodingError("");
+          const res = await fetch(
+            `${BASE_URL}?latitude=${lat}&longitude=${lng}`,
+          );
+
+          if (!res.ok) {
+            throw new Error("Error in loading geo data...");
+          }
+
+          const data = await res.json();
+
+          // console.log(data);
+
+          setCityName(data.city);
+          // setCountry(data.countryName);
+          // setEmoji(convertToEmoji(data.countryCode));
+        } catch (err) {
+          setGeoCodingError(err.message);
+        } finally {
+          setIsLoadingGeocoding(false);
+        }
+      }
+      fetchCityData();
+    },
+
+    [lat, lng],
+  );
+
   return (
-    <div className="bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow-xl border border-slate-200">
+    <div className="bg-white w-full p-4 sm:p-6 md:p-8 rounded-xl shadow-xl border border-slate-200">
       <div className="flex p-1 bg-slate-100 rounded-lg mb-6 sm:mb-8">
         <button
           onClick={(e) => {
@@ -63,6 +107,7 @@ export default function ReportForm({
             Public Description *
           </label>
           <textarea
+            defaultValue={cityName}
             required
             name="publicDescription"
             rows={3}
@@ -131,7 +176,7 @@ export default function ReportForm({
                 SECURE FIELD
               </span>
             </label>
-            <p className="text-xs text-orange-700 mb-3 italic">
+            <p className="text-xs w-sm  text-orange-700 mb-3 italic">
               This information will NEVER be shown publicly. It is used to
               verify the true owner when they claim the item. (e.g., "There is a
               dent on the bottom left").

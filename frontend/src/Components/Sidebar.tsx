@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+// import { Outlet } from "react-router-dom";
+import type { FormEvent, ReactElement } from "react";
+import styles from "./Sidebar.module.css";
+// import Logo from "../components/Logo";
+// import AppNav from "../components/AppNav";
+import ReportForm from "./ReportForm";
 import { useNavigate } from "react-router-dom";
-import ReportForm from "../Components/ReportForm";
-
-export default function Report() {
+import { useState } from "react";
+function Sidebar(): ReactElement {
   const navigate = useNavigate();
-  // const [type, setType] = useState<"lost" | "found">("lost");
+  const [type, setType] = useState<"lost" | "found">("lost");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -79,28 +83,24 @@ export default function Report() {
       navigate("/");
     }
   };
-
   return (
-    <div className="pt-24 pb-12">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl sm:text-3xl font-black mb-2 tracking-tight text-slate-900">
-            Report an Item
-          </h1>
-          <p className="text-slate-500 text-sm">
-            Help keep our campus secure and organized.
-          </p>
-        </div>
-
-        <ReportForm
-          type={type}
-          setType={setType}
-          isSubmitting={isSubmitting}
-          imageFile={imageFile}
-          setImageFile={setImageFile}
-          handleSubmit={handleSubmit}
-        />
-      </div>
+    <div className={styles.sidebar}>
+      {/* <Logo />
+      <AppNav /> */}
+      <ReportForm
+        type={type}
+        setType={setType}
+        isSubmitting={isSubmitting}
+        imageFile={imageFile}
+        setImageFile={setImageFile}
+        handleSubmit={handleSubmit}
+      />
+      {/* <Outlet />
+      <div className={styles.footer}>
+        <p className={styles.copyright}>Abhijeet</p>
+      </div> */}
     </div>
   );
 }
+
+export default Sidebar;

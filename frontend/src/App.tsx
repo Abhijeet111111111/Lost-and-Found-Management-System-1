@@ -8,6 +8,7 @@ import Admin from "./pages/Admin";
 import Login from "./pages/Login";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { useAuth } from "./context/authContext";
+import AppLayout from "./pages/AppLayout.js";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -26,7 +27,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Board />} />
         <Route element={<ProtectedRoute />}>
-          <Route path="/report" element={<Report />} />
+          <Route path="/report" element={<AppLayout />} />
           <Route path="/claim/:id" element={<Claim />} />
           <Route path="/admin" element={<Admin />} />
         </Route>
